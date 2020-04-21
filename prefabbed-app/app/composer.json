@@ -1,0 +1,32 @@
+{
+  "name": "traefik-demo-app",
+  "description": "Containerized PHP-FPM app with nginx exposed by traefik",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alex Berryman",
+      "email": "alex.berryman@55places.com"
+    }
+  ],
+  "require": {
+    "neighborhoods/prefab": "5.17.12",
+    "robmorgan/phinx": "0.11.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Neighborhoods\\App\\": [
+        "src",
+        "fab"
+      ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Neighborhoods\\App\\": [
+        "src/",
+        "test-fab/"
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+name: Cookie
+table_name: cookies
+identity_field: id
+http_route: /v1/cookie/{searchCriteria:}
+http_verbs:
+  - get
+properties:
+  id:
+    data_type: int
+    record_key: id
+    nullable: false
+    created_on_insert: true
+  type:
+    data_type: string
+    record_key: type
+    nullable: false
+  delicious:
+    data_type: bool
+    record_key: delicious
+    nullable: false

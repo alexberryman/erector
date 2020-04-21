@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  http-app:
+    image: "containous/whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+    networks:
+      - web
+
+networks:
+  web:
+    external:
+      name: traefik_web
+

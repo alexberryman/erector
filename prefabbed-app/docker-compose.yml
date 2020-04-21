@@ -1,0 +1,48 @@
+version: '3.5'
+
+services:
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - php-fpm
+    ports:
+      - 8888:80
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prefabbed.rule=Host(`cookies.localhost`)"
+      - "traefik.http.routers.prefabbed.entrypoints=web"
+    networks:
+      - web
+      - backend
+  php-fpm:
+    build: ./app
+    depends_on:
+      - psql
+    volumes:
+      - ./app:/var/www/html/
+    environment:
+      - DATABASE_ADAPTER=pgsql
+      - DATABASE_HOST=psql
+      - DATABASE_USERNAME=app
+      - DATABASE_PASSWORD=user
+      - DATABASE_NAME=password
+      - DATABASE_PORT=5432
+    networks:
+      - backend
+  psql:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=app
+    networks:
+      - backend
+
+networks:
+  web:
+    external:
+      name: traefik_web
+  backend:
+    driver: bridge

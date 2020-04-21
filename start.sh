@@ -1,0 +1,10 @@
+cd ./traefik;
+docker-compose up -d;
+cd ../http-app;
+docker-compose up -d;
+cd ../prefabbed-app;
+docker-compose up -d;
+docker-compose exec php-fpm composer install;
+docker-compose exec php-fpm vendor/bin/phinx migrate;
+docker-compose exec php-fpm vendor/bin/phinx seed:run;
+docker-compose exec php-fpm vendor/bin/prefab;
