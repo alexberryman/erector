@@ -1,7 +1,7 @@
 name: Cookie
 table_name: cookies
 identity_field: id
-http_route: /v1/cookie/{searchCriteria:}
+http_route: /v1/cookie/
 http_verbs:
   - get
 properties:

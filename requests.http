@@ -8,16 +8,7 @@ client.test("Request executed successfully", function() {
 %}
 
 ### prefabbed-app
-GET cookies.localhost
-
-> {%
-client.test("Request executed successfully", function() {
-  client.assert(response.status === 200, "Response status is not 200");
-});
-%}
-
-### prefabbed-app nginx direct
-GET localhost:8888
+GET cookies.localhost/v1/cookie/?searchCriteria[filters][0][glue]=and&searchCriteria[filters][0][field]=type&searchCriteria[filters][0][condition]=eq&searchCriteria[filters][0][values][0]=Sugar
 
 > {%
 client.test("Request executed successfully", function() {

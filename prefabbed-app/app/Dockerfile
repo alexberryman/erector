@@ -1,51 +1,21 @@
-FROM php:7.4-fpm
-# Install base libs
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        curl \
-        jq \
-        openssh-client \
-        wget \
-        git \
-        libmemcached-dev \
-        libz-dev \
-        libpq-dev \
-        libjpeg-dev \
-        libpng-dev \
-        libfreetype6-dev \
-        libssl-dev \
-        libxml2-dev \
-        libedit-dev \
-        libc-client-dev \
-        libkrb5-dev \
-        libzookeeper-mt-dev \
-        libpcre3-dev \
-        libzip-dev \
-        libonig-dev \
-        gcc \
-        make \
-        re2c \
-        gettext-base \
-        && \
-    rm -r /var/lib/apt/lists/*
-
-## Install PHP core modules
-RUN docker-php-ext-install \
-    soap \
-    zip \
-    ftp \
-    sockets \
-    bcmath \
-    mbstring \
-    pcntl \
-    readline \
-    posix \
-    sysvmsg \
-    sysvsem \
-    sysvshm
-
-# Install the PHP pdo_pgsql extention
-RUN docker-php-ext-install pdo_pgsql
+FROM php:7.4-fpm-alpine
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# This example is extremely barebones and specific to Alpine linux, however in most containers at/below
+# php 7.3, you can just run pecl + docker-php-ext-enable (see below) after you've ensured that you have
+# also installed phpize (necessary for building PHP extensions).
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
+  # Important part:
+  && pecl install xdebug \
+  && docker-php-ext-enable xdebug \
+  # Install the PHP pdo_pgsql extention
+  && apk --no-cache add postgresql-dev \
+  && docker-php-ext-install pdo_pgsql \
+  # Clean up...
+  && apk del .phpize-deps
+
+# Copy over our custom xdebug INI configuration which will coexist with the automatically generated
+# $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini created by the "docker-php-ext-enable xdebug" command above.
+COPY ./xdebug.ini $PHP_INI_DIR/conf.d
