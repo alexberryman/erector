@@ -16,12 +16,12 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
   # Clean up...
   && apk del .phpize-deps
 
+# Set the user and group id to the local user
+RUN apk add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
+USER www-data
+
 # Copy over our custom xdebug INI configuration which will coexist with the automatically generated
 # $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini created by the "docker-php-ext-enable xdebug" command above.
 COPY ./xdebug.ini $PHP_INI_DIR/conf.d
 
 WORKDIR /var/www/html/app
-
-RUN mkdir -p data
-RUN chown www-data:www-data data
-USER www-data

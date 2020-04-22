@@ -11,6 +11,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.prefabbed.rule=Host(`cookies.localhost`)"
       - "traefik.http.routers.prefabbed.entrypoints=web"
+      - "traefik.docker.network=traefik_web"
+    ports:
+      - 8888:80
     networks:
       - web
       - backend
