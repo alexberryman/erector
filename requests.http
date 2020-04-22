@@ -1,5 +1,6 @@
 ### http-app
-GET whoami.localhost
+GET 127.0.0.1
+Host: whoami.localhost
 
 > {%
 client.test("Request executed successfully", function() {
@@ -8,7 +9,8 @@ client.test("Request executed successfully", function() {
 %}
 
 ### prefabbed-app via Traefik
-GET cookies.localhost/v1/cookie/?searchCriteria[filters][0][glue]=and&searchCriteria[filters][0][field]=delicious&searchCriteria[filters][0][condition]=eq&searchCriteria[filters][0][values][0]=true
+GET 127.0.0.1/v1/cookie/?searchCriteria[filters][0][glue]=and&searchCriteria[filters][0][field]=delicious&searchCriteria[filters][0][condition]=eq&searchCriteria[filters][0][values][0]=true
+Host: cookies.localhost
 
 > {%
 client.test("Request executed successfully", function() {
@@ -24,3 +26,5 @@ client.test("Request executed successfully", function() {
   client.assert(response.status === 200, "Response status is not 200");
 });
 %}
+
+###
