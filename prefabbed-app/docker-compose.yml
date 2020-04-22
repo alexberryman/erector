@@ -19,7 +19,9 @@ services:
     depends_on:
       - psql
     volumes:
-      - ./app:/var/www/html/
+      - type: volume
+        source: app
+        target: /var/www/html/app/
     environment:
       - DATABASE_ADAPTER=pgsql
       - DATABASE_HOST=psql
@@ -48,3 +50,10 @@ networks:
       name: traefik_web
   backend:
     driver: bridge
+
+volumes:
+  app:
+    driver_opts:
+      type: none
+      device: ${PWD}/app
+      o: bind
