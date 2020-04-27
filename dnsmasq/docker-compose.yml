@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  dnsmasq:
+    image: jpillora/dnsmasq
+    volumes:
+      - ./dnsmasq.conf:/etc/dnsmasq.conf
+    environment:
+      - HTTP_USER=foo
+      - HTTP_PASS=bar
+    ports:
+    - "53:53/udp"
+    - "53:53"
+    - "5380:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dns.rule=Host(`dnsmasq.localhost`)"
+      - "traefik.http.routers.dns.entrypoints=web"
+      - "traefik.docker.network=traefik_web"

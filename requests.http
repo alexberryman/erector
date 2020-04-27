@@ -1,6 +1,5 @@
 ### http-app
-GET localhost
-Host: whoami.localhost
+GET whoami.localhost
 
 > {%
 client.test("Request executed successfully", function() {
@@ -9,8 +8,7 @@ client.test("Request executed successfully", function() {
 %}
 
 ### prefabbed-app via Traefik
-GET localhost/v1/cookie/?searchCriteria[filters][0][glue]=and&searchCriteria[filters][0][field]=delicious&searchCriteria[filters][0][condition]=eq&searchCriteria[filters][0][values][0]=true
-Host: cookies.localhost
+GET cookies.localhost/v1/cookie/?searchCriteria[filters][0][glue]=and&searchCriteria[filters][0][field]=delicious&searchCriteria[filters][0][condition]=eq&searchCriteria[filters][0][values][0]=true
 
 > {%
 client.test("Request executed successfully", function() {
