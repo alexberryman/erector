@@ -5,8 +5,8 @@ docker-compose down;
 # Stop and cleanup the prefab generated files
 cd ../prefabbed-app;
 docker-compose down;
-#docker volume rm prefabbedapp_app;
-#git clean -dxf;
+docker volume rm prefabbedapp_app;
+git clean -dxf;
 
 
 if [[ $OSTYPE == darwin* ]]; then
